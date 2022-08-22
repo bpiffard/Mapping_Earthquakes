@@ -1,5 +1,5 @@
-// Initializing the map
-let myMap = L.map('mapid').setView([37.5, -122.5], 10);
+// Initializing the map, center of earth
+let myMap = L.map('mapid').setView([30, 30], 2);
 
 // Setting the tileLayer
 let streets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -15,41 +15,14 @@ let streets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{
 streets.addTo(myMap);
 
 // Adding geoJSON data
-let sfAirport = {"type":"FeatureCollection","features":[{
-    "type":"Feature",
-    "properties":{
-        "id":"3469",
-        "name":"San Francisco International Airport",
-        "city":"San Francisco",
-        "country":"United States",
-        "faa":"SFO",
-        "icao":"KSFO",
-        "alt":"13",
-        "tz-offset":"-8",
-        "dst":"A",
-        "tz":"America/Los_Angeles"},
-        "geometry":{
-            "type":"Point",
-            "coordinates":[-122.375,37.61899948120117]}}
-]};
+// Setting url
+let airportData = 'https://raw.githubusercontent.com/bpiffard/Mapping_Earthquakes/GeoJSON_Multiple_Points/static/js/majorAirports.json'
 
-// Adding data to map
-/*
-// pointToLayer method
-L.geoJson(sfAirport, {
-    pointToLayer: function(feature, latlng) {
-        console.log(feature)
-        return L.marker(latlng)
-        .bindPopup("<h2>" + feature.properties.name + "</h2> <hr> <h3>" + 
-        feature.properties.city + ', ' + feature.properties.country)
-    }
-}).addTo(myMap);
-*/
-// onEachFeature methos
-L.geoJson(sfAirport, {
-    onEachFeature: function (feature, layer) {
-        console.log(layer)
-        layer.bindPopup('<h3> Airport Code: ' + feature.properties.faa + '</h3> <hr> <h3>Airport Name: '
-        + feature.properties.name + '</h3>')
-    }
-}).addTo(myMap);
+// Adding data using d3
+d3.json(airportData).then(function(data) {
+    L.geoJSON(data,
+        {onEachFeature: function(feature, layer) {
+            layer.bindPopup('<h3> Airport Code: ' + feature.properties.faa + '</h3> <hr> <h3>Airport Name: '
+            + feature.properties.name + '</h3>');
+        }}).addTo(myMap)
+});
