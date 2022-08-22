@@ -26,8 +26,8 @@ let baseMaps = {
 
 // Initializing the map, center of earth
 let myMap = L.map('mapid', {
-    center: [43.7, -79.3],
-    zoom: 11,
+    center: [39.5, -98.5],
+    zoom: 3,
     layers: [streets]
 });
 
@@ -36,22 +36,10 @@ L.control.layers(baseMaps).addTo(myMap);
 
 // Adding geoJSON data
 // Setting url
-let torontoHoodsData = 'https://raw.githubusercontent.com/bpiffard/Mapping_Earthquakes/Mapping_GeoJSON_Polygons/static/js/torontoNeighborhoods.json'
-
-// Setting parameters for polygon style
-let myStyle = {
-    color: '#577aeb',
-    weight: 1,
-    fillColor: '#f5e569' 
-};
+let earthquakeData = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson'
 
 // Adding data using d3
-d3.json(torontoHoodsData).then(function(data) {
+d3.json(earthquakeData).then(function(data) {
     console.log(data)
-    L.geoJSON(data, {
-        style: myStyle,
-        onEachFeature: function(feature, layer) {
-            layer.bindPopup('<h3>Neighborhood: ' + feature.properties.AREA_NAME)
-        }
-    }).addTo(myMap)
+    L.geoJSON(data).addTo(myMap)
 });
