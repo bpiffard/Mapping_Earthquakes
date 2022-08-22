@@ -1,5 +1,5 @@
 // Initializing the map
-let myMap = L.map('mapid').setView([34.0522, -118.2437], 14);
+let myMap = L.map('mapid').setView([40.7, -94.5], 4);
 
 // Setting the tileLayer
 let streets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -11,18 +11,5 @@ let streets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{
     accessToken: API_KEY
 });
 
-// Then we add our 'graymap' tile layer to the map.
+// Adding tileLayer to map
 streets.addTo(myMap);
-
-// Testing differnt ways to make circles
-var marker = L.circleMarker([34.0522, -118.2437], {
-    radius: 300,
-    fillColor: '#fcba03',
-    color: '#000000'
-}).addTo(myMap);
-
-var markerTwo = L.circle([34.0522, -118.2437], {
-    radius: 300,
-    fillColor: '#aa44c9',
-    color: '#dccce0'
-}).addTo(myMap);
